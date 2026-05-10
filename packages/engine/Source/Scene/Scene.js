@@ -4150,6 +4150,8 @@ Scene.prototype.updateHeight = function (
     removeRemovedListener();
   };
 
+  this.requestRender();
+
   return removeCallback;
 };
 

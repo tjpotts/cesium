@@ -2544,6 +2544,28 @@ describe(
       expect(scene.frameState.frameNumber).not.toEqual(lastFrameNumber);
     });
 
+    it("registering an updateHeight callback requests a new frame in requestRenderMode", function () {
+      scene.renderForSpecs();
+
+      const lastFrameNumber = scene.frameState.frameNumber;
+      expect(scene._renderRequested).toBe(false);
+
+      scene.requestRenderMode = true;
+      scene.maximumRenderTimeChange = undefined;
+
+      const removeCallback = scene.updateHeight(
+        scene.camera.positionCartographic,
+        function () {},
+      );
+
+      expect(scene._renderRequested).toBe(true);
+
+      scene.renderForSpecs();
+      expect(scene.frameState.frameNumber).not.toEqual(lastFrameNumber);
+
+      removeCallback();
+    });
+
     it("scene morphing causes a new frame to be rendered in requestRenderMode", function () {
       scene.renderForSpecs();
 
